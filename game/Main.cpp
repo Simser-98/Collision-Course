@@ -18,7 +18,7 @@ struct SmallDot
 
 bool Start_menu(Font sysFont, bool boot)
 {
-	Vector2 mousePos = GetMousePosition(); // { x, y}
+	Vector2 mousePos = GetMousePosition();
 	Vector2 titlePos{ 1280 / 5, 720 / 3 }; // position of game title
 	Vector2 startPos{ 1250 / 3, 720 / 2 }; // position of start game button
 	Vector2 startSize{ 150, 25 }; // size of start button
@@ -48,9 +48,9 @@ bool Start_menu(Font sysFont, bool boot)
 
 bool Game_over(Font sysFont, bool boot, float Timer)
 {
-	Vector2 mousePos = GetMousePosition(); // { x, y}
+	Vector2 mousePos = GetMousePosition();
 	Vector2 titlePos{ 1280 / 4, 720 / 3 }; // position of game over text
-	Vector2 menuPos{ 1280 / 3, 720 / 1.5 }; // position of menu button position
+	Vector2 menuPos{ 1280 / 3, 720 / 1.5 }; // position of menu button
 	Vector2 menuSize{ 280, 25 };
 	Vector2 scoreTextPos{ 1280 / 3, 720 / 2 }; // position of text to tell your score
 	Vector2 scorePos{ 1280 / 3 + 290, 720 / 2 }; // position of the score
@@ -61,10 +61,10 @@ bool Game_over(Font sysFont, bool boot, float Timer)
 	BeginDrawing();
 	ClearBackground(BLACK);
 	//DrawRectangleV(menuPos, menuSize, HURTBOX);
-	DrawTextEx(sysFont, "Game Over", titlePos, 100, 1, WHITE); // draws game over text onto screen
-	DrawTextEx(sysFont, "back to Main Menu", menuPos, 30, 1, WHITE); // draw the main menu button
-	DrawTextEx(sysFont, "you survived for: ", scoreTextPos, 30, 1, WHITE); // draws text
-	DrawTextEx(sysFont, gameTime, scorePos, 50, 1, WHITE); // draws survival time achieved
+	DrawTextEx(sysFont, "Game Over", titlePos, 100, 1, WHITE);
+	DrawTextEx(sysFont, "back to Main Menu", menuPos, 30, 1, WHITE);
+	DrawTextEx(sysFont, "you survived for: ", scoreTextPos, 30, 1, WHITE);
+	DrawTextEx(sysFont, gameTime, scorePos, 50, 1, WHITE);
 	EndDrawing();
 
 	
@@ -296,7 +296,7 @@ void Draw_big_star(vector<Vector2>& bStarPos,vector<SmallDot>& sPos ,bool boot)
 		sPos[i].position.y += sPos[i].velocity.y * deltaTime;
 
 		// Check if the dot is off-screen
-		if (sPos[i].position.x < 0 || sPos[i].position.x > 1280 || sPos[i].position.y < 0 || sPos[i].position.y > 720) 
+		if (sPos[i].position.x < 0 or sPos[i].position.x > 1280 or sPos[i].position.y < 0 or sPos[i].position.y > 720) 
 		{
 			// Remove the dot if it goes off-screen
 			sPos.erase(sPos.begin() + i);
@@ -462,7 +462,7 @@ int main()
 		else
 		{
 			
-			Vector2 shipMove = { 0,0 } ;
+			Vector2 shipMove = { 0,0 };
 			gameTimer += deltaTime;
 // ============================================================================
 			
