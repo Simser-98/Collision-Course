@@ -462,7 +462,7 @@ int main()
 		else
 		{
 			
-			Vector2 shipMove = { 0,0 };
+			Vector2 shipMove = { 0,0 } ;
 			gameTimer += deltaTime;
 // ============================================================================
 			
