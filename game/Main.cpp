@@ -378,10 +378,13 @@ int main()
 {
 	
 	InitWindow(1280, 720, "Collision Course");
+	SetTargetFPS(99999999);
+
 	float masterVol = 0.5f;
 	InitAudioDevice();
 	SetMasterVolume(masterVol);
-	SetTargetFPS(99999999);
+
+
 	bool gameStart = false; // boolean value for function
 	bool trueStart = false; // boolean value for keeping game started
 	bool dead = false; // boolean value for function
