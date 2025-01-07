@@ -6,7 +6,7 @@
 #include <iostream>
 #include <random>
 #include <vector>
-using namespace std;
+
 
 // this is used in the Draw_big_star for when changing the position for the small stars
 struct SmallDot 
@@ -82,8 +82,8 @@ bool Game_over( const Font& sysFont, bool boot, float Timer)
 
 
 
-bool Damage_collision_detection( const vector<Vector2>& bPos, const Vector2& objPos, 
-	const vector<Vector2>& bStarPos, const vector<SmallDot>& sbPos )
+bool Damage_collision_detection( const std::vector<Vector2>& bPos, const Vector2& objPos, 
+	const std::vector<Vector2>& bStarPos, const std::vector<SmallDot>& sbPos )
 {
 	Vector2 hurtboxBaseSize{ 64 / 4, 64 }; // size of hurtbox for the back of the ship sprite
 	Vector2 hurtboxBaseOrigin{ objPos.x - 32, objPos.y - 32 }; // setting the center of the hurtbox
@@ -123,7 +123,7 @@ bool Damage_collision_detection( const vector<Vector2>& bPos, const Vector2& obj
 
 
 void Draw_ship( const Vector2& objPos,  const Texture2D& objTxr,  const Font& sysFont , float Timer, bool boot,
-	float iFrame, const vector<Vector2>& Pos, const vector<Vector2>& bStarPos,  const vector<SmallDot>& sbPos)
+	float iFrame, const std::vector<Vector2>& Pos, const std::vector<Vector2>& bStarPos,  const std::vector<SmallDot>& sbPos)
 {
 	
 	Rectangle source{0,0, (float)objTxr.width, (float)objTxr.height};
@@ -131,7 +131,7 @@ void Draw_ship( const Vector2& objPos,  const Texture2D& objTxr,  const Font& sy
 	Vector2 origin{64/2, 64/2};
 	Vector2 fpsPos{ 10, 10 };
 	Vector2 timerPos{ 100, 10 };
-	string gameFPS = to_string(GetFPS()); //converts integer into a string
+	std::string gameFPS = std::to_string(GetFPS()); //converts integer into a string
 	char gameTime[50]; // used for drawing the fps
 	float flashInterval = 0.1f; // Interval for toggling visibility
 	static bool spriteVisible = true; // Visibility state
@@ -139,7 +139,7 @@ void Draw_ship( const Vector2& objPos,  const Texture2D& objTxr,  const Font& sy
 	bool isHit = Damage_collision_detection(Pos, objPos, bStarPos, sbPos);
 
 	// Handle collision and flashing
-	if (isHit && !isFlashing) 
+	if (isHit and !isFlashing) 
 	{
 		isFlashing = true;   // Start flashing effect
 		iFrame = 2.0f;       // Set flashing duration
@@ -211,7 +211,7 @@ void Lives_display(const Texture2D& objTxr, int Lives)
 
 
 
-void Draw_star( vector<Vector2>& Pos , bool boot)
+void Draw_star( std::vector<Vector2>& Pos , bool boot)
 {
 	static float StarSpawnTimer = 0.0f;
 	if (!boot) 
@@ -243,7 +243,7 @@ void Draw_star( vector<Vector2>& Pos , bool boot)
 
 
 
-void Draw_big_star(vector<Vector2>& bStarPos,vector<SmallDot>& sPos ,bool boot)
+void Draw_big_star(std::vector<Vector2>& bStarPos,std::vector<SmallDot>& sPos ,bool boot)
 {
 	static float bigStarSpawnTimer = 0.0f;
 	static int numSmallDots = 15;
@@ -399,9 +399,9 @@ int main()
 
 	Vector2 shipPos = { 400, 400 };
 	Vector2 healthPos = { 0, 0 };
-	vector<Vector2> StarPos;
-	vector<Vector2> bigStarPos;
-	vector<SmallDot> smallStarPos;
+	std::vector<Vector2> StarPos;
+	std::vector<Vector2> bigStarPos;
+	std::vector<SmallDot> smallStarPos;
 
 	
 	Image userShipImg = LoadImage("assets/ship.png");
