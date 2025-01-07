@@ -16,7 +16,7 @@ struct SmallDot
 };
 
 
-bool Start_menu(Font sysFont, bool boot)
+bool Start_menu(const Font& sysFont, bool boot)
 {
 	Vector2 mousePos = GetMousePosition();
 	Vector2 titlePos{ 1280 / 5, 720 / 3 }; // position of game title
@@ -46,7 +46,7 @@ bool Start_menu(Font sysFont, bool boot)
 
 
 
-bool Game_over(Font sysFont, bool boot, float Timer)
+bool Game_over( const Font& sysFont, bool boot, float Timer)
 {
 	Vector2 mousePos = GetMousePosition();
 	Vector2 titlePos{ 1280 / 4, 720 / 3 }; // position of game over text
@@ -82,7 +82,8 @@ bool Game_over(Font sysFont, bool boot, float Timer)
 
 
 
-bool Damage_collision_detection(vector<Vector2>& bPos, Vector2 objPos, vector<Vector2> bStarPos, vector<SmallDot> sbPos )
+bool Damage_collision_detection( const vector<Vector2>& bPos, const Vector2& objPos, 
+	const vector<Vector2>& bStarPos, const vector<SmallDot>& sbPos )
 {
 	Vector2 hurtboxBaseSize{ 64 / 4, 64 }; // size of hurtbox for the back of the ship sprite
 	Vector2 hurtboxBaseOrigin{ objPos.x - 32, objPos.y - 32 }; // setting the center of the hurtbox
@@ -121,7 +122,8 @@ bool Damage_collision_detection(vector<Vector2>& bPos, Vector2 objPos, vector<Ve
 
 
 
-void Draw_ship(Vector2 objPos, Texture2D objTxr, Font sysFont , float Timer, bool boot, float iFrame, vector<Vector2>& Pos,  vector<Vector2> bStarPos, vector<SmallDot> sbPos)
+void Draw_ship( const Vector2& objPos,  const Texture2D& objTxr,  const Font& sysFont , float Timer, bool boot,
+	float iFrame, const vector<Vector2>& Pos, const vector<Vector2>& bStarPos,  const vector<SmallDot>& sbPos)
 {
 	
 	Rectangle source{0,0, (float)objTxr.width, (float)objTxr.height};
@@ -184,7 +186,7 @@ void Draw_ship(Vector2 objPos, Texture2D objTxr, Font sysFont , float Timer, boo
 
 
 
-void Lives_display(Texture2D objTxr, int Lives)
+void Lives_display(const Texture2D& objTxr, int Lives)
 {
 	
 	Rectangle source{ 0,0, (float)objTxr.width, (float)objTxr.height };
@@ -317,7 +319,7 @@ void Draw_big_star(vector<Vector2>& bStarPos,vector<SmallDot>& sPos ,bool boot)
 
 
 
-void Draw_heal(Texture2D objTxr, int Lives, Vector2& lifePos, bool boot )
+void Draw_heal( const Texture2D& objTxr, int Lives, Vector2& lifePos, bool boot )
 {
 	Rectangle source{ 0,0, (float)objTxr.width, (float)objTxr.height };
 	Vector2 Origin{ 27 / 2, 27 / 2 };
@@ -380,7 +382,7 @@ int main()
 	InitWindow(1280, 720, "Collision Course");
 	SetTargetFPS(99999999);
 
-	float masterVol = 0.5f;
+	float masterVol = 0.3f;
 	InitAudioDevice();
 	SetMasterVolume(masterVol);
 
@@ -422,7 +424,7 @@ int main()
 		}
 		else if (IsKeyPressed(KEY_M))
 		{
-			masterVol = 0.4f;
+			masterVol = 0.3f;
 			SetMasterVolume(masterVol);
 		}
 		
