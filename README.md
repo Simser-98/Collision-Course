@@ -7,5 +7,7 @@ To start the game, click the start game button with the mouse, and when it's gam
 and you can press the main menu button to go back to the start screen.
 
 movement: WASD/ arrow keys
+
 mute/unmute music: m
+
 close: ESC
