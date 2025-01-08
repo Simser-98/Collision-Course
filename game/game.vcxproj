@@ -121,6 +121,15 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>raylib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>copy /Y "$(ProjectDir)Dependencies\raylib.dll" "$(OutDir)"
+copy /Y "$(ProjectDir)Dependencies\glfw3.dll" "$(OutDir)"
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -138,6 +147,15 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>raylib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>copy /Y "$(ProjectDir)Dependencies\raylib.dll" "$(OutDir)"
+copy /Y "$(ProjectDir)Dependencies\glfw3.dll" "$(OutDir)"
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

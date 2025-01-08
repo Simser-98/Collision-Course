@@ -15,11 +15,11 @@ struct SmallDot
 };
 
 
-bool Start_menu(const Font& sysFont, bool boot)
+bool Start_menu(const Font& sysFont, bool boot, float winW , float winH )
 {
 	Vector2 mousePos = GetMousePosition();
-	Vector2 titlePos{ 1280 / 5, 720 / 3 }; // position of game title
-	Vector2 startPos{ 1250 / 3, 720 / 2 }; // position of start game button
+	Vector2 titlePos{winW / 5, winH / 3 }; // position of game title
+	Vector2 startPos{ winW / 3, winH / 2 }; // position of start game button
 	Vector2 startSize{ 150, 25 }; // size of start button
 	Rectangle startBtn{ startPos.x, startPos.y, startSize.x, startSize.y };
 	
@@ -28,15 +28,15 @@ bool Start_menu(const Font& sysFont, bool boot)
 	{
 		BeginDrawing();
 		ClearBackground(BLACK);
-		DrawTextEx(sysFont, "Collision Course", titlePos, 75, 1, WHITE); // draws title
-		DrawTextEx(sysFont, "Start Game", startPos, 25, 1, WHITE); // draw start button
+		DrawTextEx(sysFont, "Collision Course", titlePos, 75, 1, WHITE);
+		DrawTextEx(sysFont, "Start Game", startPos, 25, 1, WHITE);
 		//DrawRectangleV(startPos, startSize, HURTBOX);
 		EndDrawing();
 		
 	}
 	if (CheckCollisionPointRec(mousePos, startBtn) and IsMouseButtonPressed(0)) // checks if left clicked start button
 	{
-		return true; // if left clicked
+		return true;
 
 	}
 	return false;
@@ -45,21 +45,21 @@ bool Start_menu(const Font& sysFont, bool boot)
 
 
 
-bool Game_over( const Font& sysFont, bool boot, float Timer)
+bool Game_over( const Font& sysFont, bool boot, float Timer, float winW, float winH) // relative pos needed
 {
 	Vector2 mousePos = GetMousePosition();
-	Vector2 titlePos{ 1280 / 4, 720 / 3 }; // position of game over text
-	Vector2 menuPos{ 1280 / 3, 720 / 1.5 }; // position of menu button
+	Vector2 titlePos{ winW / 4, winH / 3 }; // position of game over text
+	Vector2 menuPos{ winW / 3, winH / 1.5f }; // position of menu button
 	Vector2 menuSize{ 280, 25 };
-	Vector2 scoreTextPos{ 1280 / 3, 720 / 2 }; // position of text to tell your score
-	Vector2 scorePos{ 1280 / 3 + 290, 720 / 2 }; // position of the score
+	Vector2 scoreTextPos{ winW / 3, winH / 2 }; // position of text to tell your score
+	Vector2 scorePos{ winW / 3 + 290, winW / 2 }; // position of the score
 	Rectangle menuBtn{ menuPos.x, menuPos.y, menuSize.x, menuSize.y };
 	char gameTime[50];
 	sprintf_s(gameTime, "%.3f", Timer);
 
 	BeginDrawing();
 	ClearBackground(BLACK);
-	//DrawRectangleV(menuPos, menuSize, HURTBOX);
+	//DrawRectangleV(menuPos, menuSize, DARKGREEN);
 	DrawTextEx(sysFont, "Game Over", titlePos, 100, 1, WHITE);
 	DrawTextEx(sysFont, "back to Main Menu", menuPos, 30, 1, WHITE);
 	DrawTextEx(sysFont, "you survived for: ", scoreTextPos, 30, 1, WHITE);
@@ -84,14 +84,14 @@ bool Game_over( const Font& sysFont, bool boot, float Timer)
 bool Damage_collision_detection( const std::vector<Vector2>& bPos, const Vector2& objPos, 
 	const std::vector<Vector2>& bStarPos, const std::vector<SmallDot>& sbPos )
 {
-	Vector2 hurtboxBaseSize{ 64 / 4, 64 }; // size of hurtbox for the back of the ship sprite
-	Vector2 hurtboxBaseOrigin{ objPos.x - 32, objPos.y - 32 }; // setting the center of the hurtbox
-	Vector2 hurtboxShaftSize{ 50, 64 / 3.2 }; // size of hurtbox of front of ship sprite
-	Vector2 hurtboxShaftOrigin{ objPos.x - 16, objPos.y - 10 }; // setting center of the hurtbox 
+	Vector2 hurtboxBaseSize{ 64 / 4, 64 }; 
+	Vector2 hurtboxBaseOrigin{ objPos.x - 32, objPos.y - 32 }; 
+	Vector2 hurtboxShaftSize{ 50, 64 / 3.2 }; 
+	Vector2 hurtboxShaftOrigin{ objPos.x - 16, objPos.y - 10 };  
 	Rectangle baseBox{ hurtboxBaseOrigin.x, hurtboxBaseOrigin.y, hurtboxBaseSize.x, hurtboxBaseSize.y }; // creates a retangle with the position and dimention for the hurtbox of base of ship
 	Rectangle shaftBox{ hurtboxShaftOrigin.x, hurtboxShaftOrigin.y, hurtboxShaftSize.x, hurtboxShaftSize.y }; // creates a retangle with the position and dimention for the hurtbox of shaft of ship
-	//DrawRectangleV(hurtboxBaseOrigin, hurtboxBaseSize, HURTBOX);
-	//DrawRectangleV(hurtboxShaftOrigin, hurtboxShaftSize, HURTBOX);
+	//DrawRectangleV(hurtboxBaseOrigin, hurtboxBaseSize, GREEN);
+	//DrawRectangleV(hurtboxShaftOrigin, hurtboxShaftSize, GREEN);
 	for (int i = 0; i < bPos.size(); i++)
 	{
 		if (CheckCollisionCircleRec(bPos[i], 2, baseBox) or CheckCollisionCircleRec(bPos[i], 2, shaftBox)) // check if position of a star collide with the position of the retangles for the hurtboxes
@@ -120,9 +120,9 @@ bool Damage_collision_detection( const std::vector<Vector2>& bPos, const Vector2
 }
 
 
-
+// relative pos needed
 void Draw_ship( const Vector2& objPos,  const Texture2D& objTxr,  const Font& sysFont , float Timer, bool boot,
-	float iFrame, const std::vector<Vector2>& Pos, const std::vector<Vector2>& bStarPos,  const std::vector<SmallDot>& sbPos)
+	float iFrame, const std::vector<Vector2>& Pos, const std::vector<Vector2>& bStarPos,  const std::vector<SmallDot>& sbPos, float deltaTime) 
 {
 	
 	Rectangle source{0,0, (float)objTxr.width, (float)objTxr.height};
@@ -130,7 +130,6 @@ void Draw_ship( const Vector2& objPos,  const Texture2D& objTxr,  const Font& sy
 	Vector2 origin{64/2, 64/2};
 	Vector2 fpsPos{ 10, 10 };
 	Vector2 timerPos{ 100, 10 };
-	std::string gameFPS = std::to_string(GetFPS()); //converts integer into a string
 	char gameTime[50]; // used for drawing the fps
 	float flashInterval = 0.1f; // Interval for toggling visibility
 	static bool spriteVisible = true; // Visibility state
@@ -175,7 +174,7 @@ void Draw_ship( const Vector2& objPos,  const Texture2D& objTxr,  const Font& sy
 		{
 			DrawTexturePro(objTxr, source, dest, origin, 90.f, WHITE); // draws sprite onto screen
 		}
-		DrawTextEx(sysFont, gameFPS.c_str(), fpsPos, 30, 1, WHITE); // draw fps onto screen
+		DrawTextEx(sysFont, std::to_string(GetFPS()).c_str(), fpsPos, 30, 1, WHITE); // draw fps onto screen
 		DrawTextEx(sysFont, gameTime, timerPos, 30, 1, WHITE); // draws timer onto screen
 		EndDrawing();
 	}
@@ -185,7 +184,7 @@ void Draw_ship( const Vector2& objPos,  const Texture2D& objTxr,  const Font& sy
 
 
 
-void Lives_display(const Texture2D& objTxr, int Lives)
+void Lives_display(const Texture2D& objTxr, int Lives, float winW,  float winH)
 {
 	
 	Rectangle source{ 0,0, (float)objTxr.width, (float)objTxr.height };
@@ -210,7 +209,7 @@ void Lives_display(const Texture2D& objTxr, int Lives)
 
 
 
-void Draw_star( std::vector<Vector2>& Pos , bool boot)
+void Draw_star( std::vector<Vector2>& Pos , bool boot, float deltaTime, float winW, float winH)
 {
 	static float StarSpawnTimer = 0.0f;
 	if (!boot) 
@@ -219,7 +218,7 @@ void Draw_star( std::vector<Vector2>& Pos , bool boot)
 		if (StarSpawnTimer >= 1.0f) // rate of increase of stars on screen
 		{ 
 			StarSpawnTimer = 0.0f;
-			Pos.push_back(Vector2{ (float)GetRandomValue(1280, 2000), (float)GetRandomValue(1, 720)}); // add a star to the start of the array
+			Pos.push_back(Vector2{ (float)GetRandomValue((int)winW, 2000), (float)GetRandomValue(1, (int)winH)}); // add a star to the start of the array
 		}
 	}
 
@@ -229,7 +228,7 @@ void Draw_star( std::vector<Vector2>& Pos , bool boot)
 		if (Pos[i].x < 0) 
 		{
 			// Recycle stars that leave the screen
-			Pos[i] = Vector2{ (float)GetRandomValue(1280, 2000), (float)GetRandomValue(1, 720)};
+			Pos[i] = Vector2{ (float)GetRandomValue((int)winW, 2000), (float)GetRandomValue(1, (int)winH)};
 		}
 		Pos[i].x -= 400 * deltaTime;
 
@@ -242,7 +241,7 @@ void Draw_star( std::vector<Vector2>& Pos , bool boot)
 
 
 
-void Draw_big_star(std::vector<Vector2>& bStarPos,std::vector<SmallDot>& sPos ,bool boot)
+void Draw_big_star(std::vector<Vector2>& bStarPos,std::vector<SmallDot>& sPos ,bool boot, float deltaTime, float winW, float winH)
 {
 	static float bigStarSpawnTimer = 0.0f;
 	static int numSmallDots = 15;
@@ -256,11 +255,11 @@ void Draw_big_star(std::vector<Vector2>& bStarPos,std::vector<SmallDot>& sPos ,b
 	}
 	if (bigStarSpawnTimer >= 4.8f) // rate of big stars added to the screen
 	{
-		bStarPos.push_back(Vector2{ (float)GetRandomValue(1280, 2000), (float)GetRandomValue(1, 720) }); // adds a big star to the start of the array
+		bStarPos.push_back(Vector2{ (float)GetRandomValue((int)winW, 2000), (float)GetRandomValue(1, (int)winH) }); // adds a big star to the start of the array
 		bigStarSpawnTimer = 0.0f;
 	}
 	// === Handle Big Stars ===
-	for (size_t i = 0; i < bStarPos.size(); i++) 
+	for (auto i = 0; i < bStarPos.size(); i++) 
 	{
 		if (bStarPos[i].x < 10) 
 		{
@@ -276,7 +275,7 @@ void Draw_big_star(std::vector<Vector2>& bStarPos,std::vector<SmallDot>& sPos ,b
 			}
 
 			// Recycle the big star
-			bStarPos[i] = Vector2{ (float)GetRandomValue(1280, 2000), (float)GetRandomValue(1, 720) };
+			bStarPos[i] = Vector2{ (float)GetRandomValue((int)winW, 2000), (float)GetRandomValue(1, (int)winH) };
 		}
 
 		// Move the big star
@@ -290,14 +289,14 @@ void Draw_big_star(std::vector<Vector2>& bStarPos,std::vector<SmallDot>& sPos ,b
 	}
 
 	// === Handle Small Dots ===
-	for (size_t i = 0; i < sPos.size(); /* no increment */) 
+	for (auto i = 0; i < sPos.size(); /* no increment */) 
 	{
 		// Update position based on velocity
 		sPos[i].position.x += sPos[i].velocity.x *deltaTime;
 		sPos[i].position.y += sPos[i].velocity.y * deltaTime;
 
 		// Check if the dot is off-screen
-		if (sPos[i].position.x < 0 or sPos[i].position.x > 1280 or sPos[i].position.y < 0 or sPos[i].position.y > 720) 
+		if (sPos[i].position.x < 0 or sPos[i].position.x > winW or sPos[i].position.y < 0 or sPos[i].position.y > winH) 
 		{
 			// Remove the dot if it goes off-screen
 			sPos.erase(sPos.begin() + i);
@@ -318,7 +317,7 @@ void Draw_big_star(std::vector<Vector2>& bStarPos,std::vector<SmallDot>& sPos ,b
 
 
 
-void Draw_heal( const Texture2D& objTxr, int Lives, Vector2& lifePos, bool boot )
+void Draw_heal( const Texture2D& objTxr, int Lives, Vector2& lifePos, bool boot , float deltaTime, float winH)
 {
 	Rectangle source{ 0,0, (float)objTxr.width, (float)objTxr.height };
 	Vector2 Origin{ 27 / 2, 27 / 2 };
@@ -339,14 +338,14 @@ void Draw_heal( const Texture2D& objTxr, int Lives, Vector2& lifePos, bool boot 
 			if (lifePos.x < 0)
 			{
 				// Recycle health item that leave the screen
-				lifePos = Vector2{ (float)GetRandomValue(2000 ,4000), (float)GetRandomValue(1, 720) };
+				lifePos = Vector2{ (float)GetRandomValue(2000 ,4000), (float)GetRandomValue(1, (int)winH) };
 			}
 			lifePos.x -= 400 * deltaTime;
 			DrawTexturePro(objTxr, source, healthDest, Origin, shipRotation, WHITE);
 		}
 		if (Lives > 2)
 		{
-			lifePos = Vector2{ (float)GetRandomValue(2000, 4000), (float)GetRandomValue(1, 720) }; // obtains item reset the item position
+			lifePos = Vector2{ (float)GetRandomValue(2000, 4000), (float)GetRandomValue(1, (int)winH) }; // obtains item reset the item position
 		}
 	}
 	
@@ -377,13 +376,15 @@ bool Heal_collision(Vector2 lifePos,Vector2 objPos ,int Lives)
 
 int main()
 {
-	
-	InitWindow(1280, 720, "Collision Course");
-	SetTargetFPS(99999999);
+	const float WINHEIGHT = 720.0f;
+	const float WINWIDTH = 1280.0f;
+	InitWindow(static_cast<int> (WINWIDTH), static_cast<int> (WINHEIGHT), "Collision Course");
+	float deltaTime = GetFrameTime();
+	SetTargetFPS(0);
 
-	float masterVol = 0.3f;
-	InitAudioDevice();
+	float masterVol = 0.15f;
 	SetMasterVolume(masterVol);
+	InitAudioDevice();
 
 
 	bool gameStart = false; // boolean value for function
@@ -391,12 +392,14 @@ int main()
 	bool dead = false; // boolean value for function
 	bool gameEnd = false; // boolean value for keeping game ended
 	
-	int shipLives = 3;
-	float iTime = 0.0f; // invincibility timer
-	float gameTimer = 0.0f;
-	float speedMult = 1.0f;
+	
+	int shipLives;
+	float iTime; // invincibility timer
+	float gameTimer;
+	float shipSpeed = 315.0f;
+	float speedMult;
 
-	Vector2 shipPos = { 400, 400 };
+	Vector2 shipPos;
 	Vector2 healthPos = { 0, 0 };
 	std::vector<Vector2> StarPos;
 	std::vector<Vector2> bigStarPos;
@@ -423,7 +426,7 @@ int main()
 		}
 		else if (IsKeyPressed(KEY_M))
 		{
-			masterVol = 0.3f;
+			masterVol = 0.15f;
 			SetMasterVolume(masterVol);
 		}
 		
@@ -432,12 +435,12 @@ int main()
 		
 		if (!trueStart and !gameEnd)
 		{
-			gameStart = Start_menu(gameFont, trueStart);
-			if (gameStart) // sets all values back to initial values when gaem restarts
+			gameStart = Start_menu(gameFont, trueStart, WINWIDTH, WINHEIGHT);
+			if (gameStart) // sets all values back to initial values when game restarts
 			{
 				PlaySound(gameTheme);
 				trueStart = true;
-				shipPos = { 400, 400 };
+				shipPos = { WINWIDTH / 3, WINHEIGHT / 2 };
 				shipLives = 3;
 				gameTimer = 0.0f;
 				iTime = 0.0f;
@@ -449,7 +452,7 @@ int main()
 		}
 		else if (gameEnd)
 		{
-				dead = Game_over(gameFont, gameEnd, gameTimer);
+				dead = Game_over(gameFont, gameEnd, gameTimer, WINWIDTH, WINHEIGHT);
 				
 				StopSound(gameTheme);
 				
@@ -497,15 +500,15 @@ int main()
 			{
 				speedMult = 1.0f;
 			}
-			shipPos = Vector2Add(shipPos, Vector2Normalize(shipMove) * deltaTime * speed * speedMult); // so movement speed is consistent for diagonals
+			shipPos = Vector2Add(shipPos, Vector2Normalize(shipMove) * deltaTime * shipSpeed * speedMult); // so movement speed is consistent for diagonals
 			
 			// ============================================================================	
 
-			Draw_ship(shipPos, userShipTxr, gameFont, gameTimer, gameEnd, iTime ,  StarPos, bigStarPos, smallStarPos);
-			Lives_display(userShipTxr, shipLives);
-			Draw_star(StarPos, gameEnd);
-			Draw_big_star(bigStarPos, smallStarPos, gameEnd);
-			Draw_heal(userShipTxr, shipLives, healthPos, gameEnd);
+			Draw_ship(shipPos, userShipTxr, gameFont, gameTimer, gameEnd, iTime ,  StarPos, bigStarPos, smallStarPos, deltaTime);
+			Lives_display(userShipTxr, shipLives, WINWIDTH, WINHEIGHT);
+			Draw_star(StarPos, gameEnd, deltaTime, WINWIDTH, WINHEIGHT);
+			Draw_big_star(bigStarPos, smallStarPos, gameEnd, deltaTime, WINWIDTH, WINHEIGHT);
+			Draw_heal(userShipTxr, shipLives, healthPos, gameEnd, deltaTime, WINHEIGHT);
 			
 			bool isHealed = false;
 			bool isHit = false;
