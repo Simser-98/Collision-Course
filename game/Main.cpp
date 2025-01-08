@@ -1,7 +1,6 @@
 #include "raylib.h"
 #include "raymath.h"
 #include <cmath>
-#include "config.h"
 #include <string>
 #include <iostream>
 #include <random>

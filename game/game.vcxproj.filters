@@ -8,7 +8,4 @@
       <UniqueIdentifier>{47d68d57-61ac-4b8a-8dab-2e48c96701c7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="config.h" />
-  </ItemGroup>
 </Project>
